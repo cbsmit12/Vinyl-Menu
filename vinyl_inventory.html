@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinyl Record Inventory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+            padding: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .album-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            height: calc(100vh - 150px); /* Leaves margin at the bottom */
+            overflow-y: auto;
+            width: 100%;
+            padding-right: 10px;
+            padding-bottom: 20px; /* Extra padding for last album */
+        }
+        .album {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .album img {
+            width: 120px;
+            height: 120px;
+            border-radius: 5px;
+            margin-right: 20px;
+        }
+        .album-info {
+            text-align: left;
+        }
+        .album-info h3 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .album-info p {
+            margin: 5px 0 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Vinyl Collection</h1>
+        <input type="text" id="search" placeholder="Search by artist or title..." onkeyup="filterAlbums()">
+        <div class="album-list" id="albumList"></div>
+    </div>
+
+    <script>
+        let albums = [
+            { artist: "Pink Floyd", title: "The Dark Side of the Moon", cover: "https://upload.wikimedia.org/wikipedia/en/3/3b/Dark_Side_of_the_Moon.png" },
+            { artist: "Beatles", title: "Abbey Road", cover: "https://upload.wikimedia.org/wikipedia/en/4/42/Beatles_-_Abbey_Road.jpg" },
+            { artist: "Fleetwood Mac", title: "Rumors", cover: "https://upload.wikimedia.org/wikipedia/en/f/fb/FMacRumours.PNG" },
+            { artist: "Aesop Rock", title: "Labor Days", cover: "https://upload.wikimedia.org/wikipedia/en/9/90/Labor_Days.jpg" },
+            { artist: "Aesop Rock", title: "Spirit World Field Guide", cover: "https://f4.bcbits.com/img/a4186608441_10.jpg" },
+            { artist: "Fiona Apple", title: "When the Pawn...", cover: "https://upload.wikimedia.org/wikipedia/en/2/24/Fiona_apple_when_the_pawn.jpg" },
+            { artist: "2Pac", title: "Strictly 4 My N.I.G.G.A.Z.", cover: "https://upload.wikimedia.org/wikipedia/en/b/ba/Strictly_4_My_N.I.G.G.A.Z.jpg" },
+            { artist: "Alabama Shakes", title: "Sound & Color", cover: "https://upload.wikimedia.org/wikipedia/en/2/2d/Alabama_Shakes_-_Sound_%26_Color_album_cover.jpg" },
+	    { artist: "Alt J", title: "This is All Yours", cover: "https://img.apmcdn.org/cb84cb1ea25560afe7c84e0c37f86c19218e6f63/square/83c69c-20141019-alt-j-this-is-all-yours.jpg" },
+	    { artist: "Arcade Fire", title: "Funeral", cover: "https://upload.wikimedia.org/wikipedia/en/2/25/ArcadeFireFuneralCover.jpg" },
+        ];
+
+        albums.sort((a, b) => a.artist.localeCompare(b.artist));
+
+        function displayAlbums(albumArray) {
+            const albumList = document.getElementById("albumList");
+            albumList.innerHTML = "";
+            albumArray.forEach(album => {
+                const div = document.createElement("div");
+                div.classList.add("album");
+                div.innerHTML = `
+                    <img src="${album.cover}" alt="${album.title}">
+                    <div class="album-info">
+                        <h3>${album.title}</h3>
+                        <p>${album.artist}</p>
+                    </div>
+                `;
+                albumList.appendChild(div);
+            });
+        }
+
+        function filterAlbums() {
+            const search = document.getElementById("search").value.toLowerCase();
+            const filteredAlbums = albums.filter(album =>
+                album.artist.toLowerCase().includes(search) || 
+                album.title.toLowerCase().includes(search)
+            );
+            displayAlbums(filteredAlbums);
+        }
+
+        displayAlbums(albums);
+    </script>
+</body>
+</html>
